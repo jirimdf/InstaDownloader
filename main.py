@@ -103,7 +103,7 @@ def get_instagram_stories(username, download_folder):
                 continue
 
             download_date = datetime.now().strftime("%d%m%Y")
-            filename = os.path.join(download_folder, "Stories", f"LupusDownloader_{username}_{download_date}_{index + 1}.{extension}")
+            filename = os.path.join(download_folder, "Stories", f"jirimdf_Downloader_{username}_{download_date}_{index + 1}.{extension}")
 
             if not is_already_downloaded(download_url, download_folder):
                 print(f"Downloading {download_url} to {filename}...")
@@ -162,3 +162,4 @@ def run_script():
         return False
 
 run_script()
+
