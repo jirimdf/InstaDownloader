@@ -1,67 +1,67 @@
 # Instagram Stories Downloader
 
+A Python script that downloads Instagram stories from a public account. It uses a headless Chrome browser (Selenium) to fetch the stories through a third-party download service and saves new images and videos to a local folder. It can be scheduled to run automatically, for example every 2 hours.
 
-This script allows you to download Instagram stories from any public account.<br>
-You can also automate the script to run at system startup, for example, every 2 hours using Task Scheduler.
+## Features
 
+- Downloads images and videos from stories of a public Instagram account
+- Runs in headless mode (no browser window)
+- Skips already downloaded stories (`downloaded_links.txt`)
+- Logs each run to `task.txt`
+- Can be scheduled with Windows Task Scheduler or cron
 
-## How it works
+## Tech stack
 
-The script operates in several steps:
+- Python 3
+- Selenium (headless Chrome)
+- Requests
 
-1. **Opening Web Browser**: The script initiates a headless web browser session using Selenium WebDriver.
+## Requirements
 
-2. **Navigating to Download Page**: It directs the browser to the webpage, which facilitates content downloading from social media platforms.
-
-3. **Inputting Instagram Story URL**: The user provides the URL of the Instagram story they wish to download.
-
-4. **Identifying and Downloading Media**: The script identifies the type of media (images or videos) present in the story and proceeds to download them to the specified directory.
-
-5. **Recording Downloaded Links**: To avoid redundant downloads, the script maintains a record of `downloaded_links.txt`.
-
-6. **Recording Run Time**: The script records the time of execution in the `task.txt` file, providing a log of script runs.
-
-7. **Error Handling**: The script includes error-handling mechanisms to deal with unexpected situations, ensuring smooth execution.
-
-By following these steps, the script enables users to conveniently download Instagram stories for offline viewing.
+- Python 3
+- Google Chrome
 
 ## Installation
 
-1. Clone the repository:
+```bash
+git clone https://github.com/jirimdf/InstaDownloader.git
+cd InstaDownloader
+pip install -r requirements.txt
+```
 
-    ```bash
-    git clone https://github.com/LupusJM/InstaDownloader.git
-    ```
+## Configuration
 
-3. Install Dependencies:
+Open `main.py` and edit these variables in the `run_script()` function:
 
-   ```bash
-   pip install requests selenium urllib3
-   ```
+```python
+download_folder = r"C:\path\to\your\folder"  # where the files will be saved
+username = "instagram_username"               # public account to download from
+```
 
 ## Usage
 
-1. **Configuration**:
-   - Modify the `download_folder` variable to your target directory. You can right-click on the script, choose "Open With" and select Notepad. Then, change the `download_folder` variable to point to your desired folder path.
-   - Update the `instagram_stories_url` variable with the URL of the Instagram story you want to download.
+```bash
+python main.py
+```
 
-2. **Run the Script**:
+Files are saved to `<download_folder>/Stories/` in this format:
 
-   ```bash
-   python main.py
-   ```
-3. **Enjoy your files**:
-<br>
+```
+jirimdf_Downloader_{username}_{ddmmYYYY}_{n}.{jpg|mp4}
+```
 
-![LupusDownloader](https://github.com/LupusJM/InstaDownloader/assets/163419314/b4130af9-a9a2-4adb-8e7a-dd08d8dc488f)
-> LupusDownloader\_{username}\_{download\_date}\_{index + 1}.\{extension\}
+![example](https://github.com/jirimdf/InstaDownloader/assets/163419314/b4130af9-a9a2-4adb-8e7a-dd08d8dc488f)
 
-5. **Automation with Task Scheduler**: Optionally, you can automate the script to run at system startup or at regular intervals using Task Scheduler. This allows you to schedule the script to run, for example, every 2 hours for periodic updates.
+## Automation
 
+To download new stories regularly, create a task in Windows Task Scheduler (or a cron job on Linux) that runs `python main.py`, for example every 2 hours.
 
 ## Notes
-- Tested and verified in Linux & Windows OS.
-- This script requires the Google Chrome browser and its driver suitable for your operating system.
-- Remember that downloading content from social media platforms may be restricted by copyright and Instagram's terms of service.
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/lupusjm/InstaDownloader/blob/main/LICENSE)
+- Tested on Windows and Linux.
+- The script depends on the structure of a third-party website, so it may stop working if that website changes.
+- Respect Instagram's Terms of Service and copyright. Only download content you have the right to use.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
