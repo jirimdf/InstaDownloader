@@ -1,12 +1,16 @@
 # Instagram Stories Downloader
 
+[![Tests](https://github.com/jirimdf/InstaDownloader/actions/workflows/tests.yml/badge.svg)](https://github.com/jirimdf/InstaDownloader/actions/workflows/tests.yml)
+
 A Python script that downloads Instagram stories from a public account. It uses a headless Chrome browser (Selenium) to fetch the stories through a third-party download service and saves new images and videos to a local folder. It can be scheduled to run automatically, for example every 2 hours.
 
 ## Features
 
 - Downloads images and videos from stories of a public Instagram account
 - Runs in headless mode (no browser window)
-- Skips already downloaded stories (`downloaded_links.txt`)
+- Skips already downloaded stories (`downloaded_links.txt`) and never overwrites existing files
+- Username and folder are passed as arguments, no need to edit the code
+- Clear error messages for private accounts, accounts without stories and website changes
 - Logs each run to `task.txt`
 - Can be scheduled with Windows Task Scheduler or cron
 
@@ -29,19 +33,22 @@ cd InstaDownloader
 pip install -r requirements.txt
 ```
 
-## Configuration
-
-Open `main.py` and edit these variables in the `run_script()` function:
-
-```python
-download_folder = r"C:\path\to\your\folder"  # where the files will be saved
-username = "instagram_username"               # public account to download from
-```
-
 ## Usage
 
 ```bash
-python main.py
+python main.py <username> [-f FOLDER] [--show-browser]
+```
+
+| Argument | Description |
+|---|---|
+| `username` | Instagram username of a public account |
+| `-f`, `--folder` | Folder where the stories are saved (default: `./downloads`) |
+| `--show-browser` | Show the Chrome window instead of running headless (useful for debugging) |
+
+Example:
+
+```bash
+python main.py some_public_account -f ./stories
 ```
 
 Files are saved to `<download_folder>/Stories/` in this format:
@@ -54,7 +61,16 @@ jirimdf_Downloader_{username}_{ddmmYYYY}_{n}.{jpg|mp4}
 
 ## Automation
 
-To download new stories regularly, create a task in Windows Task Scheduler (or a cron job on Linux) that runs `python main.py`, for example every 2 hours.
+To download new stories regularly, create a task in Windows Task Scheduler (or a cron job on Linux) that runs `python main.py <username> -f <folder>`, for example every 2 hours.
+
+## Tests
+
+```bash
+pip install pytest
+python -m pytest
+```
+
+The tests cover the download logic with mocked responses, so they need no network access or browser. They run automatically on every push via GitHub Actions.
 
 ## Notes
 
